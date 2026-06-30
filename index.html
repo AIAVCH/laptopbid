@@ -634,6 +634,31 @@
     renderOffers(await loadOffers());
   });
 
+  var OWNER_EMAIL = 'aviral0311@gmail.com';
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function notifyOwnerByEmail(record){
+    var subject = 'New barter offer: ' + record.item + ' from ' + record.name;
+    var bodyLines = [
+      'New offer on the Dell Trade Post:',
+      '',
+      'Name: ' + record.name,
+      'Email: ' + (record.contact || 'not provided'),
+      'Item: ' + record.item + (record.qty ? ' (' + record.qty + ')' : ''),
+      'Description: ' + (record.desc || 'none'),
+      'Submitted: ' + new Date(record.ts).toLocaleString()
+    ];
+    var mailtoUrl = 'mailto:' + encodeURIComponent(OWNER_EMAIL) +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(bodyLines.join('\n'));
+    var link = document.createElement('a');
+    link.href = mailtoUrl;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   document.getElementById('submit-btn').addEventListener('click', async function(){
     var statusEl = document.getElementById('form-status');
     statusEl.innerHTML = '';
@@ -643,8 +668,16 @@
     var qty = document.getElementById('f-qty').value.trim();
     var desc = document.getElementById('f-desc').value.trim();
 
-    if(!name || !selectedItem){
-      statusEl.innerHTML = '<div class="status-msg err">Add your name and pick an item before submitting.</div>';
+    if(!name){
+      statusEl.innerHTML = '<div class="status-msg err">Please add your name.</div>';
+      return;
+    }
+    if(!selectedItem){
+      statusEl.innerHTML = '<div class="status-msg err">Please pick an item you are offering.</div>';
+      return;
+    }
+    if(contact && !EMAIL_RE.test(contact)){
+      statusEl.innerHTML = '<div class="status-msg err">That email address doesn\'t look valid.</div>';
       return;
     }
 
@@ -665,8 +698,9 @@
       };
       await saveOffer(record);
       renderOffers(await loadOffers());
+      notifyOwnerByEmail(record);
 
-      statusEl.innerHTML = '<div class="status-msg ok">Offer added to the ledger.</div>';
+      statusEl.innerHTML = '<div class="status-msg ok">Offer added to the ledger &mdash; a notification email to the owner has been opened in your mail app, please hit send.</div>';
       document.getElementById('f-name').value = '';
       document.getElementById('f-contact').value = '';
       document.getElementById('f-qty').value = '';
