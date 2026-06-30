@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Dell Trade Post</title>
+<style>
+  :root{
+    /* neutral-{number}: warm paper-to-ink ramp */
+    --neutral-50:#FAF7F2;
+    --neutral-100:#F1EAD9;
+    --neutral-200:#E5DAC0;
+    --neutral-300:#D2C2A0;
+    --neutral-400:#B5A37D;
+    --neutral-500:#93805F;
+    --neutral-600:#6F5F47;
+    --neutral-700:#534739;
+    --neutral-800:#3A322A;
+    --neutral-900:#221D18;
+
+    /* orange-{number}: terracotta / clay, primary accent */
+    --orange-50:#FCEEE6;
+    --orange-100:#F8D6C1;
+    --orange-200:#F0B28C;
+    --orange-300:#E48B5C;
+    --orange-400:#CD6736;
+    --orange-500:#B5512C;
+    --orange-600:#8C3D20;
+    --orange-700:#6B2E18;
+    --orange-800:#4A2010;
+    --orange-900:#2E1409;
+
+    /* amber-{number}: gold / tea, coffee */
+    --amber-50:#FCF4E0;
+    --amber-100:#F6E1AC;
+    --amber-200:#ECC777;
+    --amber-300:#DDA847;
+    --amber-400:#C9902F;
+    --amber-500:#A8741F;
+    --amber-600:#7E5717;
+    --amber-700:#5E4112;
+    --amber-800:#422D0C;
+    --amber-900:#281B07;
+
+    /* rose-{number}: chocolate / berry */
+    --rose-50:#FAEAF0;
+    --rose-100:#F2C7D8;
+    --rose-200:#E59BBA;
+    --rose-300:#D06E97;
+    --rose-400:#B84E78;
+    --rose-500:#A23E5E;
+    --rose-600:#742C44;
+    --rose-700:#581F33;
+    --rose-800:#3D1424;
+    --rose-900:#240C16;
+
+    /* blue-{number}: sky / bilona chach */
+    --blue-50:#EAF2FA;
+    --blue-100:#C6DFF2;
+    --blue-200:#93C0E5;
+    --blue-300:#5C9DD2;
+    --blue-400:#3A7FB8;
+    --blue-500:#2E72A8;
+    --blue-600:#1D4D73;
+    --blue-700:#163C5A;
+    --blue-800:#102B40;
+    --blue-900:#0A1C2A;
+
+    /* teal-{number}: success / pick state */
+    --teal-50:#E8F4F0;
+    --teal-100:#C3E3D8;
+    --teal-200:#93CCB9;
+    --teal-300:#62B399;
+    --teal-400:#3B9C7E;
+    --teal-500:#1D8A7A;
+    --teal-600:#146357;
+    --teal-700:#0F4A41;
+    --teal-800:#0A332D;
+    --teal-900:#06201C;
+
+    /* semantic aliases used throughout the UI */
+    --kraft:var(--neutral-100);
+    --kraft-dark:var(--neutral-200);
+    --ink:var(--neutral-900);
+    --ink-soft:var(--neutral-600);
+    --clay:var(--orange-500);
+    --clay-dark:var(--orange-600);
+    --olive:var(--teal-500);
+    --olive-dark:var(--teal-700);
+    --gold:var(--amber-300);
+    --cream:var(--neutral-50);
+    --line:var(--neutral-300);
+    --teal:var(--teal-500);
+    --teal-dark:var(--teal-700);
+    --berry:var(--rose-500);
+    --berry-dark:var(--rose-700);
+    --sky:var(--blue-500);
+    --sky-dark:var(--blue-700);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  .wrap{
+    font-family: Georgia, 'Times New Roman', serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(181,81,44,0.12), transparent 38%),
+      radial-gradient(circle at 88% 6%, rgba(46,114,168,0.12), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(29,138,122,0.10), transparent 45%),
+      var(--neutral-100);
+    color:var(--ink);
+    padding:32px 20px 60px;
+    min-height:100vh;
+  }
+  .container{max-width:760px;margin:0 auto;}
+
+  .masthead{
+    text-align:center;
+    border-bottom:3px double var(--ink);
+    padding-bottom:18px;
+    margin-bottom:28px;
+  }
+  .masthead .eyebrow{
+    letter-spacing:.18em;
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--clay-dark);
+    font-family: 'Courier New', monospace;
+  }
+  .masthead h1{
+    font-size:42px;
+    margin:8px 0 4px;
+    font-weight:700;
+    letter-spacing:.01em;
+    background:linear-gradient(100deg, var(--orange-600) 0%, var(--rose-500) 35%, var(--blue-600) 70%, var(--teal-700) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    display:inline-block;
+  }
+  .masthead .sub{
+    font-size:14px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  .hero{
+    display:flex;
+    gap:24px;
+    align-items:center;
+    background:linear-gradient(135deg, #FBF3E3 0%, #F6E8D6 55%, #F1E0D2 100%);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:24px;
+    margin-bottom:28px;
+    position:relative;
+    box-shadow:0 4px 0 rgba(43,38,32,0.05);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    right:-40px;
+    top:-40px;
+    width:160px;
+    height:160px;
+    background:radial-gradient(circle, rgba(46,114,168,0.12), transparent 70%);
+  }
+  .hero-badge{
+    position:absolute;
+    top:-12px;
+    right:18px;
+    background:var(--clay);
+    color:#fff;
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    letter-spacing:.08em;
+    padding:5px 10px;
+    transform:rotate(2deg);
+    border-radius:2px;
+    box-shadow:0 2px 4px rgba(140,61,32,0.35);
+    z-index:1;
+  }
+  .hero-laptop{
+    flex:0 0 150px;
+    width:150px;
+    position:relative;
+    z-index:1;
+  }
+  .hero-text{position:relative;z-index:1;}
+  .hero-text h2{
+    margin:0 0 8px;
+    font-size:23px;
+    color:var(--clay-dark);
+  }
+  .hero-text p{
+    margin:0;
+    font-size:14px;
+    color:var(--ink-soft);
+    line-height:1.55;
+  }
+
+  .section-label{
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--olive-dark);
+    border-bottom:1px solid var(--line);
+    padding-bottom:6px;
+    margin:0 0 16px;
+  }
+
+  .slip{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:22px;
+    margin-bottom:32px;
+  }
+  .row{display:flex;gap:14px;margin-bottom:14px;}
+  .row > div{flex:1;}
+  label{
+    display:block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+    font-family:'Courier New',monospace;
+  }
+  input, select, textarea{
+    width:100%;
+    font-family:Georgia,serif;
+    font-size:14px;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:3px;
+    color:var(--ink);
+  }
+  textarea{resize:vertical;min-height:54px;}
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:var(--clay);
+    box-shadow:0 0 0 2px rgba(181,81,44,0.15);
+  }
+
+  .item-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(110px,1fr));
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .item-chip{
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:6px;
+    padding:12px 8px;
+    text-align:center;
+    cursor:pointer;
+    font-size:13px;
+    user-select:none;
+    transition:transform .12s ease, box-shadow .12s ease;
+    border-bottom:3px solid var(--chip-color, var(--line));
+  }
+  .item-chip:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 8px rgba(43,38,32,0.08);
+  }
+  .item-chip span{display:block;font-size:20px;margin-bottom:4px;}
+  .item-chip.selected{
+    border-color:var(--chip-color, var(--olive));
+    border-bottom:3px solid var(--chip-color, var(--olive));
+    background:var(--chip-bg, #EFF1E6);
+    color:var(--chip-color, var(--olive-dark));
+    font-weight:bold;
+    box-shadow:0 4px 10px rgba(43,38,32,0.10);
+  }
+
+  button.submit{
+    width:100%;
+    background:linear-gradient(120deg, var(--clay) 0%, var(--clay-dark) 100%);
+    color:#fff;
+    border:none;
+    padding:13px;
+    border-radius:6px;
+    font-size:14px;
+    font-family:'Courier New',monospace;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+    margin-top:4px;
+    box-shadow:0 3px 0 var(--clay-dark);
+    transition:transform .08s ease;
+  }
+  button.submit:hover{filter:brightness(1.05);}
+  button.submit:active{transform:translateY(2px);box-shadow:0 1px 0 var(--clay-dark);}
+  button.submit:disabled{background:#B8AB8E;cursor:not-allowed;box-shadow:none;}
+
+  .status-msg{
+    font-size:13px;
+    margin-top:10px;
+    padding:8px 10px;
+    border-radius:3px;
+  }
+  .status-msg.ok{background:#EFF1E6;color:var(--olive-dark);border:1px solid #C8D2B5;}
+  .status-msg.err{background:#F7E5DC;color:var(--clay-dark);border:1px solid #ECC2AC;}
+
+  .offers-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .offer-count{
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+
+  .offer{
+    border:1px solid var(--line);
+    background:var(--cream);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    position:relative;
+    border-left:4px solid var(--gold);
+    box-shadow:0 2px 4px rgba(43,38,32,0.04);
+  }
+  .offer.selected{
+    border:1px solid var(--olive);
+    border-left:4px solid var(--olive);
+    background:#EFF1E6;
+    box-shadow:0 3px 8px rgba(65,75,51,0.12);
+  }
+  .offer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .offer-who{
+    font-weight:bold;
+    font-size:15px;
+  }
+  .offer-time{
+    font-size:11px;
+    color:var(--ink-soft);
+    font-family:'Courier New',monospace;
+    white-space:nowrap;
+  }
+  .offer-item{
+    display:inline-block;
+    margin-top:6px;
+    color:#fff;
+    font-size:12px;
+    padding:3px 9px;
+    border-radius:4px;
+    font-family:'Courier New',monospace;
+  }
+  .offer-item.Tea{background:var(--amber-600);}
+  .offer-item.Coffee{background:var(--neutral-700);}
+  .offer-item.Chocolate{background:var(--rose-700);}
+  .offer-item.Bilona-Chach{background:var(--blue-700);}
+  .offer-item.Other{background:var(--teal-700);}
+  .offer-desc{
+    margin-top:8px;
+    font-size:14px;
+    color:var(--ink);
+    line-height:1.5;
+  }
+  .offer-actions{
+    margin-top:10px;
+    display:flex;
+    gap:8px;
+  }
+  .pick-btn{
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:transparent;
+    border:1px solid var(--olive);
+    color:var(--olive-dark);
+    padding:5px 10px;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .pick-btn.active{
+    background:var(--olive);
+    color:#fff;
+  }
+  .empty{
+    text-align:center;
+    color:var(--ink-soft);
+    font-style:italic;
+    padding:30px 0;
+    font-size:14px;
+  }
+  .footer-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:30px;
+    font-family:'Courier New',monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="container">
+
+  <div class="masthead">
+    <div class="eyebrow">One laptop. No rupees. Goods only.</div>
+    <h1>The Dell Trade Post</h1>
+    <div class="sub">Bring tea, coffee, chocolate, bilona chach &mdash; whatever you've got.</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-badge" id="listing-badge">For trade</div>
+    <div class="hero-laptop">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="screenGlow" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#3A8FD9"/>
+            <stop offset="55%" stop-color="#1D4D73"/>
+            <stop offset="100%" stop-color="#0F2E45"/>
+          </linearGradient>
+          <linearGradient id="lidMetal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#9A9690"/>
+            <stop offset="100%" stop-color="#6E6A63"/>
+          </linearGradient>
+          <linearGradient id="baseMetal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8A867F"/>
+            <stop offset="100%" stop-color="#57534D"/>
+          </linearGradient>
+        </defs>
+
+        <rect x="22" y="10" width="156" height="100" rx="8" fill="url(#lidMetal)"/>
+        <rect x="29" y="16" width="142" height="88" rx="4" fill="url(#screenGlow)"/>
+
+        <rect x="40" y="40" width="64" height="8" rx="2" fill="#EAF4FF" opacity="0.85"/>
+        <rect x="40" y="54" width="92" height="5" rx="2" fill="#BFD9F2" opacity="0.5"/>
+        <rect x="40" y="64" width="76" height="5" rx="2" fill="#BFD9F2" opacity="0.5"/>
+        <rect x="40" y="74" width="50" height="5" rx="2" fill="#BFD9F2" opacity="0.5"/>
+
+        <text x="146" y="98" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#3A8FD9" text-anchor="end">DELL</text>
+
+        <path d="M10 112 L190 112 L178 130 Q176 134 170 134 L30 134 Q24 134 22 130 Z" fill="url(#baseMetal)"/>
+        <rect x="86" y="112" width="28" height="4" rx="2" fill="#3D3A35"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h2 id="listing-title">1x Dell laptop, working condition</h2>
+      <p id="listing-desc">Not for sale &mdash; only for barter. Make your best offer below and the owner will browse the ledger and pick whoever they fancy.</p>
+    </div>
+  </div>
+
+  <div class="section-label">Make an offer</div>
+  <div class="slip">
+    <div class="row">
+      <div>
+        <label for="f-name">Your name</label>
+        <input id="f-name" type="text" placeholder="e.g. Priya Sharma" />
+      </div>
+      <div>
+        <label for="f-contact">Email (optional)</label>
+        <input id="f-contact" type="email" placeholder="you@example.com" />
+      </div>
+    </div>
+
+    <label>What are you offering</label>
+    <div class="item-grid" id="item-grid">
+      <div class="item-chip" data-item="Tea" style="--chip-color:var(--amber-600);--chip-bg:var(--amber-50);"><span>&#x1F375;</span>Tea</div>
+      <div class="item-chip" data-item="Coffee" style="--chip-color:var(--neutral-700);--chip-bg:var(--neutral-100);"><span>&#x2615;</span>Coffee</div>
+      <div class="item-chip" data-item="Chocolate" style="--chip-color:var(--rose-700);--chip-bg:var(--rose-50);"><span>&#x1F36B;</span>Chocolate</div>
+      <div class="item-chip" data-item="Bilona Chach" style="--chip-color:var(--blue-700);--chip-bg:var(--blue-50);"><span>&#x1FAD9;</span>Bilona Chach</div>
+      <div class="item-chip" data-item="Other" style="--chip-color:var(--teal-700);--chip-bg:var(--teal-50);"><span>&#x270D;</span>Other</div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="f-qty">Quantity / amount</label>
+        <input id="f-qty" type="text" placeholder="e.g. 2 kg, 1 dozen, 5 litres" />
+      </div>
+    </div>
+
+    <label for="f-desc">Tell us more about it</label>
+    <textarea id="f-desc" placeholder="e.g. Homemade bilona chach, churned fresh every morning, delivered in 1L jars"></textarea>
+
+    <button class="submit" id="submit-btn">Submit offer</button>
+    <div id="form-status"></div>
+  </div>
+
+  <div class="offers-head">
+    <div class="section-label" style="border:none;margin-bottom:6px;">The ledger</div>
+    <div class="offer-count" id="offer-count"></div>
+  </div>
+  <div id="offers-list"></div>
+
+  <div class="footer-note">Offers are visible to everyone &middot; the laptop owner marks a pick directly on the ledger</div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var DB = {
+    offers: 'db:offers:',       // table: offers        -> one key per record (id, name, contact, item, qty, desc, ts, selected)
+    listing: 'db:listing:laptop' // table: listing       -> single record describing the item up for trade
+  };
+  var selectedItem = null;
+
+  var grid = document.getElementById('item-grid');
+  grid.addEventListener('click', function(e){
+    var chip = e.target.closest('.item-chip');
+    if(!chip) return;
+    Array.prototype.forEach.call(grid.children, function(c){ c.classList.remove('selected'); });
+    chip.classList.add('selected');
+    selectedItem = chip.getAttribute('data-item');
+  });
+
+  function escapeHtml(str){
+    var d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function timeAgo(ts){
+    var diff = Math.max(0, Date.now() - ts);
+    var mins = Math.floor(diff/60000);
+    if(mins < 1) return 'just now';
+    if(mins < 60) return mins + 'm ago';
+    var hrs = Math.floor(mins/60);
+    if(hrs < 24) return hrs + 'h ago';
+    var days = Math.floor(hrs/24);
+    return days + 'd ago';
+  }
+
+  // ---- offers table: db:offers:<id> -> {id,name,contact,item,qty,desc,ts,selected} ----
+  async function loadOffers(){
+    try{
+      var listed = await window.storage.list(DB.offers, true);
+      if(!listed || !listed.keys || listed.keys.length === 0) return [];
+      var records = await Promise.all(listed.keys.map(async function(key){
+        try{
+          var res = await window.storage.get(key, true);
+          return res && res.value ? JSON.parse(res.value) : null;
+        }catch(e){ return null; }
+      }));
+      return records.filter(Boolean);
+    }catch(e){ return []; }
+  }
+
+  async function saveOffer(offer){
+    await window.storage.set(DB.offers + offer.id, JSON.stringify(offer), true);
+  }
+
+  function renderOffers(offers){
+    var list = document.getElementById('offers-list');
+    var count = document.getElementById('offer-count');
+    count.textContent = offers.length + (offers.length === 1 ? ' offer' : ' offers');
+
+    if(offers.length === 0){
+      list.innerHTML = '<div class="empty">No offers yet. Be the first to put something on the ledger.</div>';
+      return;
+    }
+
+    var sorted = offers.slice().sort(function(a,b){ return b.ts - a.ts; });
+
+    list.innerHTML = sorted.map(function(o){
+      var sel = o.selected ? ' selected' : '';
+      var btnLabel = o.selected ? 'Picked' : 'Mark as pick';
+      var btnActive = o.selected ? ' active' : '';
+      return '' +
+        '<div class="offer' + sel + '" data-id="' + o.id + '">' +
+          '<div class="offer-top">' +
+            '<div class="offer-who">' + escapeHtml(o.name) + '</div>' +
+            '<div class="offer-time">' + timeAgo(o.ts) + '</div>' +
+          '</div>' +
+          '<div class="offer-item ' + escapeHtml(String(o.item).replace(/\s+/g,'-')) + '">' + escapeHtml(o.item) + (o.qty ? ' &middot; ' + escapeHtml(o.qty) : '') + '</div>' +
+          (o.desc ? '<div class="offer-desc">' + escapeHtml(o.desc) + '</div>' : '') +
+          (o.contact ? '<div class="offer-desc" style="color:var(--ink-soft);font-size:12px;">Email: ' + escapeHtml(o.contact) + '</div>' : '') +
+          '<div class="offer-actions">' +
+            '<button class="pick-btn' + btnActive + '" data-action="pick" data-id="' + o.id + '">' + btnLabel + '</button>' +
+          '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  // ---- listing table: db:listing:laptop -> {title,description,status} ----
+  async function loadListing(){
+    try{
+      var res = await window.storage.get(DB.listing, true);
+      if(res && res.value) return JSON.parse(res.value);
+    }catch(e){}
+    return null;
+  }
+
+  async function ensureListing(){
+    var listing = await loadListing();
+    if(!listing){
+      listing = {
+        title: '1x Dell laptop, working condition',
+        description: 'Not for sale, only for barter. Make your best offer below and the owner will browse the ledger and pick whoever they fancy.',
+        status: 'available'
+      };
+      await window.storage.set(DB.listing, JSON.stringify(listing), true);
+    }
+    return listing;
+  }
+
+  function renderListing(listing){
+    document.getElementById('listing-title').textContent = listing.title;
+    document.getElementById('listing-desc').textContent = listing.description;
+    var badge = document.getElementById('listing-badge');
+    badge.textContent = listing.status === 'available' ? 'For trade' : 'Claimed';
+  }
+
+  async function refresh(){
+    var offers = await loadOffers();
+    renderOffers(offers);
+    return offers;
+  }
+
+  document.getElementById('offers-list').addEventListener('click', async function(e){
+    var btn = e.target.closest('button[data-action="pick"]');
+    if(!btn) return;
+    var id = btn.getAttribute('data-id');
+    var offers = await loadOffers();
+    var willSelect = !offers.find(function(o){ return o.id === id; }).selected;
+    await Promise.all(offers.map(function(o){
+      var next = Object.assign({}, o, { selected: o.id === id ? willSelect : false });
+      return saveOffer(next);
+    }));
+    renderOffers(await loadOffers());
+  });
+
+  document.getElementById('submit-btn').addEventListener('click', async function(){
+    var statusEl = document.getElementById('form-status');
+    statusEl.innerHTML = '';
+
+    var name = document.getElementById('f-name').value.trim();
+    var contact = document.getElementById('f-contact').value.trim();
+    var qty = document.getElementById('f-qty').value.trim();
+    var desc = document.getElementById('f-desc').value.trim();
+
+    if(!name || !selectedItem){
+      statusEl.innerHTML = '<div class="status-msg err">Add your name and pick an item before submitting.</div>';
+      return;
+    }
+
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try{
+      var record = {
+        id: 'o_' + Date.now() + '_' + Math.floor(Math.random()*10000),
+        name: name,
+        contact: contact,
+        item: selectedItem,
+        qty: qty,
+        desc: desc,
+        ts: Date.now(),
+        selected: false
+      };
+      await saveOffer(record);
+      renderOffers(await loadOffers());
+
+      statusEl.innerHTML = '<div class="status-msg ok">Offer added to the ledger.</div>';
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-contact').value = '';
+      document.getElementById('f-qty').value = '';
+      document.getElementById('f-desc').value = '';
+      Array.prototype.forEach.call(grid.children, function(c){ c.classList.remove('selected'); });
+      selectedItem = null;
+    }catch(e){
+      statusEl.innerHTML = '<div class="status-msg err">Could not save your offer. Try again.</div>';
+    }finally{
+      btn.disabled = false;
+      btn.textContent = 'Submit offer';
+    }
+  });
+
+  (async function init(){
+    var listing = await ensureListing();
+    renderListing(listing);
+    await refresh();
+  })();
+})();
+</script>
+</body>
+</html>
